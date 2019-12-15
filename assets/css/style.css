@@ -13,14 +13,25 @@ body {
     margin: auto;
 }
 
+right {
+	float: right;
+}
+
+left {
+	float: left;
+}
+
 /* region Nav */
 .nav {
     background-color: #cd3752;
-    overflow: auto;
+}
+
+.nav-group {
+	display: inline-block;
 }
 
 .nav-item {
-    float: left;
+	display: inline-block;
     color: #f7f7f7;
 }
 

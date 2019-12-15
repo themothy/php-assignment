@@ -7,7 +7,12 @@ $base = base_url() . index_page();
 
 <div class="nav">
     <div class="container">
-        <div class="nav-group">
+		<div class="nav-group left">
+			<div class="nav-item">
+				<a href="<?= $base ?>">Home</a>
+			</div>
+		</div>
+        <div class="nav-group right">
             <div class="nav-item">
                 <a href="<?= $base ?>/login">Login</a>
             </div>
