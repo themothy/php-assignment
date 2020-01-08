@@ -17,6 +17,7 @@ class LoginController extends CI_Controller
         parent::__construct();
         $this->load->model('UserModel');
         $this->load->helper('url');
+        $this->load->library('session');
     }
 
 
@@ -32,22 +33,51 @@ class LoginController extends CI_Controller
     {
         if ($this->input->post('login'))
         {
-            # Get the login form data.
-            foreach ($this->data['form'] as $key => $value)
-            {
-                $this->data['form'][$key] = $this->input->post($key);
-            }
+            $this->login();
+        }
+    }
 
-            try
+
+    private function login()
+    {
+        # Get the login form data.
+        foreach ($this->data['form'] as $key => $value)
+        {
+            $this->data['form'][$key] = $this->input->post($key);
+        }
+
+        try
+        {
+            $email = $this->data['form']['email'];
+            $password = $this->data['form']['password'];
+
+            # Get the logging in user details (if they exist, and the password is correct).
+            $user = $this->UserModel->login($email, $password);
+
+            if ($user != false)
             {
-                $email = $this->data['form']['email'];
-                $password = $this->data['form']['password'];
-                $this->UserModel->login($email, $password);
+                $this->session->set_userdata([
+                    'email' => $email,
+                    'userType' => $user->userType,
+                    'loggedIn' => true,
+                ]);
+
                 redirect('home');
             }
-            catch (Exception $exception)
+            else
             {
-                $this->data['error'] = $exception->getMessage();
+                $this->data['error'] = [
+                    'id' => 'login',
+                    'message' => 'Invalid email or password.',
+                ];
             }
         }
-    }}
+        catch (Exception $exception)
+        {
+            $this->data['error'] = [
+                'id' => 'login',
+                'message' => 'Unknown error occurred when logging in, try again later.',
+            ];
+        }
+    }
+}

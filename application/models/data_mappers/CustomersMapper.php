@@ -14,17 +14,17 @@ class CustomersMapper extends CI_Model
     {
         $sql = '
             INSERT INTO customers 
-            (email, password, contactFirstName, contactLastName, customerName, phone, creditLimit, addressLine1, addressLine2, city, country, postalCode)
+            (email, password, firstName, lastName, companyName, phone, creditLimit, addressLine1, addressLine2, city, country, postalCode)
             VALUES
             (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ';
 
-        $this->db->query($sql, array(
+        $this->db->query($sql, [
             $array['email'],
             $array['password'],
-            $array['contact-first-name'],
-            $array['contact-last-name'],
-            $array['customer-name'],
+            $array['first-name'],
+            $array['last-name'],
+            $array['company-name'],
             $array['phone'],
             $array['credit-limit'],
             $array['address-1'],
@@ -32,7 +32,7 @@ class CustomersMapper extends CI_Model
             $array['city'],
             $array['country'],
             $array['post-code'],
-        ));
+        ]);
 
         if ($this->db->affected_rows() == 1)
         {
@@ -48,12 +48,12 @@ class CustomersMapper extends CI_Model
     public function fetch($id)
     {
         $sql = '
-            SELECT customerNumber, email, password, contactFirstName, contactLastName, customerName, phone, creditLimit, addressLine1, addressLine2, city, country, postalCode
+            SELECT customerId, userType, email, password, firstName, lastName, companyName, phone, creditLimit, addressLine1, addressLine2, city, country, postalCode
             FROM customers
-            WHERE customerNumber = ?
+            WHERE customerId = ?
             ';
 
-        $query = $this->db->query($sql, array($id));
+        $query = $this->db->query($sql, [$id]);
         $results = $query->result();
         return $results[0];
     }
@@ -62,14 +62,19 @@ class CustomersMapper extends CI_Model
     public function fetchByEmail($email)
     {
         $sql = '
-            SELECT customerNumber, email, password, contactFirstName, contactLastName, customerName, phone, creditLimit, addressLine1, addressLine2, city, country, postalCode
+            SELECT customerId, userType, email, password, firstName, lastName, companyName, phone, creditLimit, addressLine1, addressLine2, city, country, postalCode
             FROM customers
             WHERE email = ?
             ';
 
-        $query = $this->db->query($sql, array($email));
+        $query = $this->db->query($sql, [$email]);
         $results = $query->result();
-        return $results[0];
+
+        if (count($results) > 0)
+        {
+            return $results[0];
+        }
+        return null;
     }
 
 

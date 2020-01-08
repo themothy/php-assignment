@@ -11,7 +11,7 @@ class UserModel extends CI_Model
     }
 
 
-    public function register($user)
+    public function register(array $user)
     {
         $user['password'] = hash('sha256', $user['password']);
 
@@ -25,17 +25,34 @@ class UserModel extends CI_Model
         }
     }
 
-    public function login($email, $password)
+
+    public function login(string $email, string $password)
     {
         $user = $this->CustomersMapper->fetchByEmail($email);
 
-        if (hash('sha256', $password) == $user->password)
+        if ($user == null)
         {
-            return true;
+            return false;
+        }
+        else if (hash('sha256', $password) == $user->password)
+        {
+            return $user;
         }
         else
         {
-            throw new Exception("Invalid email or password");
+            return false;
         }
+    }
+
+
+    public function emailIsFree(string $email)
+    {
+        $user = $this->CustomersMapper->fetchByEmail($email);
+
+        if ($user == null)
+        {
+            return true;
+        }
+        return false;
     }
 }
