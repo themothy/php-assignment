@@ -10,32 +10,58 @@ class ProductsMapper extends CI_Model
     }
 
 
-    public function insert($array)
+    public function rowCount(): int
     {
-        // TODO: Implement insert() method.
+        return $this->db->count_all('products');
     }
 
 
-    public function fetch($id)
+    public function insert(array $data): bool
     {
-        // TODO: Implement fetch() method.
     }
 
 
-    public function update($id, $array)
+    public function fetch(string $code)
     {
-        // TODO: Implement update() method.
+        $sql = '
+            SELECT productCode, description, productLine, supplier, quantityInStock, bulkBuyPrice, bulkSalePrice, photo
+            FROM products
+            WHERE productCode = ?
+            ';
+
+        $query = $this->db->query($sql, [$code]);
+        $results = $query->result();
+
+        if (count($results) > 0)
+        {
+            return $results[0];
+        }
+        return null;
     }
 
 
-    public function delete($id)
+    public function update(string $code, array $newData): bool
     {
-        // TODO: Implement delete() method.
     }
 
 
-    public function fetchAll()
+    public function delete(string $code): bool
     {
-        // TODO: Implement delete() method.
+    }
+
+
+    public function fetchAll(int $limit, ?int $offset): array
+    {
+        $offset = ($offset == null) ? 0 : $offset;
+
+        $sql = '
+            SELECT productCode, description, productLine, supplier, quantityInStock, bulkBuyPrice, bulkSalePrice, photo
+            FROM products
+            LIMIT ? OFFSET ?
+            ';
+
+        $query = $this->db->query($sql, [$limit, $offset]);
+        $results = $query->result();
+        return $results;
     }
 }

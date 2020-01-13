@@ -108,7 +108,8 @@ function verifyEmailIsFree() {
         };
         let uri = baseUrl() + '/register';
         let data = {
-            'verify-email-free': 'true',
+            'ajax': true,
+            'verify-email-free': true,
             'email': email.value
         };
 

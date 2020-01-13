@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 
-class UserModel extends CI_Model
+class CustomerModel extends CI_Model
 {
     function __construct()
     {

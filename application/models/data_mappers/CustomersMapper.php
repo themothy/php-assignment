@@ -10,7 +10,7 @@ class CustomersMapper extends CI_Model
     }
 
 
-    public function insert($array)
+    public function insert(array $data): bool
     {
         $sql = '
             INSERT INTO customers 
@@ -20,18 +20,18 @@ class CustomersMapper extends CI_Model
             ';
 
         $this->db->query($sql, [
-            $array['email'],
-            $array['password'],
-            $array['first-name'],
-            $array['last-name'],
-            $array['company-name'],
-            $array['phone'],
-            $array['credit-limit'],
-            $array['address-1'],
-            $array['address-2'],
-            $array['city'],
-            $array['country'],
-            $array['post-code'],
+            $data['email'],
+            $data['password'],
+            $data['first-name'],
+            $data['last-name'],
+            $data['company-name'],
+            $data['phone'],
+            $data['credit-limit'],
+            $data['address-1'],
+            $data['address-2'],
+            $data['city'],
+            $data['country'],
+            $data['post-code'],
         ]);
 
         if ($this->db->affected_rows() == 1)
@@ -45,7 +45,7 @@ class CustomersMapper extends CI_Model
     }
 
 
-    public function fetch($id)
+    public function fetch(int $id)
     {
         $sql = '
             SELECT customerId, userType, email, password, firstName, lastName, companyName, phone, creditLimit, addressLine1, addressLine2, city, country, postalCode
@@ -55,11 +55,16 @@ class CustomersMapper extends CI_Model
 
         $query = $this->db->query($sql, [$id]);
         $results = $query->result();
-        return $results[0];
+
+        if (count($results) > 0)
+        {
+            return $results[0];
+        }
+        return null;
     }
 
 
-    public function fetchByEmail($email)
+    public function fetchByEmail(string $email)
     {
         $sql = '
             SELECT customerId, userType, email, password, firstName, lastName, companyName, phone, creditLimit, addressLine1, addressLine2, city, country, postalCode
@@ -78,20 +83,17 @@ class CustomersMapper extends CI_Model
     }
 
 
-    public function update($id, $array)
+    public function update(int $id, array $newData): bool
     {
-        // TODO: Implement update() method.
     }
 
 
-    public function delete($id)
+    public function delete(int $id): bool
     {
-        // TODO: Implement delete() method.
     }
 
 
-    public function fetchAll()
+    public function fetchAll(): array
     {
-        // TODO: Implement delete() method.
     }
 }

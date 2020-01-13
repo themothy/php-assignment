@@ -57,3 +57,8 @@ $route['home'] = 'HomeController/index';
 $route['login'] = 'LoginController/index';
 $route['register'] = 'RegisterController/index';
 $route['logout'] = 'LogoutController/index';
+
+$route['products'] = 'ProductsController/index';
+$route['product/(:any)'] = 'ProductController/index/$1';
+$route['cart'] = 'CartController/index';
+$route['wishlist'] = 'WishlistController/index';

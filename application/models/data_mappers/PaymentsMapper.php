@@ -10,32 +10,27 @@ class PaymentsMapper extends CI_Model
     }
 
 
-    public function insert($array)
+    public function insert(array $data): bool
     {
-        // TODO: Implement insert() method.
     }
 
 
-    public function fetch($id)
+    public function fetch(int $id)
     {
-        // TODO: Implement fetch() method.
     }
 
 
-    public function update($id, $array)
+    public function update(int $id, array $newData): bool
     {
-        // TODO: Implement update() method.
     }
 
 
-    public function delete($id)
+    public function delete(int $id): bool
     {
-        // TODO: Implement delete() method.
     }
 
 
-    public function fetchAll()
+    public function fetchAll(): array
     {
-        // TODO: Implement delete() method.
     }
 }

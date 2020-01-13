@@ -7,7 +7,6 @@ class LogoutController extends CI_Controller
     {
         parent::__construct();
         $this->load->helper('url');
-        $this->load->library('session');
     }
 
 

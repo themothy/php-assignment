@@ -21,32 +21,45 @@ class RegisterController extends CI_Controller
             'post-code' => '',
         ],
     ];
-    private $handleAjax = false;
 
 
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('UserModel');
+        $this->load->model('CustomerModel');
         $this->load->helper('url');
     }
 
 
     public function index()
     {
-        # Get the register form data.
-        foreach ($this->data['form'] as $key => $value)
+        if ($this->session->loggedIn == false)
         {
-            $this->data['form'][$key] = $this->input->post($key);
+            $this->setData();
+
+            if ($this->input->post('ajax'))
+            {
+                $this->handleAjax();
+            }
+            else
+            {
+                $this->handlePost();
+                $this->load->view('pages/register', $this->data);
+            }
         }
-
-        $this->handlePost();
-
-        if ($this->handleAjax == false)
+        else
         {
-            $this->load->view('pages/register', $this->data);
+            redirect('home');
         }
-        $this->handleAjax = false;
+    }
+
+
+    private function handleAjax()
+    {
+        if ($this->input->post('verify-email-free'))
+        {
+            $this->verifyEmailIsFree();
+        }
     }
 
 
@@ -56,11 +69,6 @@ class RegisterController extends CI_Controller
         {
             $this->register();
         }
-        else if ($this->input->post('verify-email-free'))
-        {
-            $this->handleAjax = true;
-            $this->verifyEmailIsFree();
-        }
     }
 
 
@@ -69,7 +77,7 @@ class RegisterController extends CI_Controller
         try
         {
             $user = $this->data['form'];
-            $this->UserModel->register($user);
+            $this->CustomerModel->register($user);
             redirect('home');
         }
         catch (Exception $exception)
@@ -88,7 +96,7 @@ class RegisterController extends CI_Controller
         {
             $email = $this->input->post('email');
 
-            if ($this->UserModel->emailIsFree($email))
+            if ($this->CustomerModel->emailIsFree($email))
             {
                 echo json_encode([
                     'status' => 'success',
@@ -109,6 +117,16 @@ class RegisterController extends CI_Controller
                 'status' => 'error',
                 'message' => "Failed to verify if email is already in use, there was an unknown error that occurred."
             ]);
+        }
+    }
+
+
+    private function setData()
+    {
+        # Register form data.
+        foreach ($this->data['form'] as $key => $value)
+        {
+            $this->data['form'][$key] = $this->input->post($key);
         }
     }
 }

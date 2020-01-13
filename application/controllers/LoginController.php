@@ -15,17 +15,29 @@ class LoginController extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('UserModel');
+        $this->load->model('CustomerModel');
         $this->load->helper('url');
-        $this->load->library('session');
     }
 
 
     public function index()
     {
-        $this->handlePost();
+        if ($this->session->loggedIn == false)
+        {
+            # Get the register form data.
+            foreach ($this->data['form'] as $key => $value)
+            {
+                $this->data['form'][$key] = $this->input->post($key);
+            }
 
-        $this->load->view('pages/login', $this->data);
+            $this->handlePost();
+
+            $this->load->view('pages/login', $this->data);
+        }
+        else
+        {
+            redirect('home');
+        }
     }
 
 
@@ -52,11 +64,12 @@ class LoginController extends CI_Controller
             $password = $this->data['form']['password'];
 
             # Get the logging in user details (if they exist, and the password is correct).
-            $user = $this->UserModel->login($email, $password);
+            $user = $this->CustomerModel->login($email, $password);
 
             if ($user != false)
             {
                 $this->session->set_userdata([
+                    'customerId' => $user->customerId,
                     'email' => $email,
                     'userType' => $user->userType,
                     'loggedIn' => true,

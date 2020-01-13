@@ -9,6 +9,8 @@
 export function JSONHttpRequest(uri, data, func, method = 'POST', async = true) {
     let request = new XMLHttpRequest();
 
+    console.log(data);
+
     request.onreadystatechange = function () {
         if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
             let response = JSON.parse(this.responseText);
