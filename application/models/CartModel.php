@@ -8,6 +8,7 @@ class CartModel extends CI_Model
     {
         parent::__construct();
         $this->load->model('data_mappers/CartMapper');
+        $this->load->model('data_mappers/ProductsMapper');
     }
 
 

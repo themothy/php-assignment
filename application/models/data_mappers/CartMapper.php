@@ -41,8 +41,22 @@ class CartMapper extends CI_Model
     }
 
 
-    public function fetchByCustomerId(int $customerId)
+    public function fetchByCustomerId(int $customerId): array
     {
+        $sql = '
+            SELECT customerId, productCode, quantity
+            FROM cart
+            WHERE customerId = ?
+            ';
+
+        $query = $this->db->query($sql, [$customerId]);
+        $results = $query->result();
+
+        if (count($results) > 0)
+        {
+            return $results;
+        }
+        return null;
     }
 
 
