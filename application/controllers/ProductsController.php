@@ -49,6 +49,10 @@ class ProductsController extends CI_Controller
         {
             $this->addToCart();
         }
+        if ($this->input->post('add-to-wishlist'))
+		{
+			$this->addToWishlist();
+		}
     }
 
 
@@ -87,6 +91,38 @@ class ProductsController extends CI_Controller
             ]);
         }
     }
+
+
+	private function addToWishlist()
+	{
+		try
+		{
+			$customerId = $this->session->userdata('customerId');
+			$productCode = $this->input->post('product-code');
+
+			if ($this->CartModel->addToWishlist($customerId, $productCode))
+			{
+				echo json_encode([
+					'status' => 'success',
+					'message' => null
+				]);
+			}
+			else
+			{
+				echo json_encode([
+					'status' => 'error',
+					'message' => 'Unknown error occurred when adding item to wishlist.'
+				]);
+			}
+		}
+		catch (Exception $exception)
+		{
+			echo json_encode([
+				'status' => 'error',
+				'message' => 'Unknown error occurred when adding item to wishlist.'
+			]);
+		}
+	}
 
 
     private function setPagination()

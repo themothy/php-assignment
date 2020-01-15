@@ -2,14 +2,14 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * @var array $products
+ * @var array $wishlistItems
  */
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <?php $this->load->view('includes/head') ?>
-    <title>Products</title>
+    <title>Wishlist</title>
 </head>
 <body>
 
@@ -17,11 +17,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <div class="body">
     <div class="container">
-        <?php foreach ($products as $product): ?>
-            <?php $this->load->view('includes/product_row', ['product' => $product]) ?>
+        <?php foreach ($wishlistItems as $wishlistItem): ?>
+            <?php $this->load->view('includes/wishlist_row', ['wishlistItem' => $wishlistItem]) ?>
         <?php endforeach ?>
-
-        <?= $this->pagination->create_links() ?>
     </div>
 </div>
 

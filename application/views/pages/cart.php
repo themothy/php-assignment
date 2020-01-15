@@ -9,7 +9,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <html lang="en">
 <head>
     <?php $this->load->view('includes/head') ?>
-    <title>Home</title>
+    <title>Cart</title>
 </head>
 <body>
 
