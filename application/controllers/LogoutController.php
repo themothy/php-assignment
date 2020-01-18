@@ -12,7 +12,7 @@ class LogoutController extends CI_Controller
 
     public function index()
     {
-        $this->session->unset_userdata(['email', 'userType', 'loggedIn']);
+        $this->session->unset_userdata(['email', 'userType', 'loggedIn', 'cart']);
         redirect('home');
     }
 }

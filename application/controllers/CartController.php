@@ -12,7 +12,6 @@ class CartController extends CI_Controller
     {
         parent::__construct();
         $this->load->model('CartModel');
-        $this->load->model('CartMapper');
         $this->load->model('ProductsMapper');
         $this->load->helper('url');
     }
@@ -54,13 +53,16 @@ class CartController extends CI_Controller
     private function setData()
     {
         # Cart items.
-        $this->data['cartItems'] = $this->CartMapper->fetchByCustomerId($this->session->customerId);
-
-        for ($i = 0; $i < count($this->data['cartItems']); $i++)
+        if ($this->session->has_userdata('cart'))
         {
-            $cartItem = $this->data['cartItems'][$i];
-            $product = $this->ProductsMapper->fetch($cartItem->productCode);
-            $cartItem->product = $product;
+            $this->data['cartItems'] = $this->session->cart;
+
+            for ($i = 0; $i < count($this->data['cartItems']); $i++)
+            {
+                $cartItem = $this->data['cartItems'][$i];
+                $cartItem['product'] = $this->ProductsMapper->fetch($cartItem['productCode']);
+                $this->data['cartItems'][$i] = $cartItem;
+            }
         }
     }
 }

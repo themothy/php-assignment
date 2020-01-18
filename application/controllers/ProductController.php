@@ -12,6 +12,7 @@ class ProductController extends CI_Controller
     {
         parent::__construct();
         $this->load->model('ProductModel');
+        $this->load->model('CartModel');
         $this->load->model('ProductsMapper');
         $this->load->helper('url');
     }
@@ -35,11 +36,82 @@ class ProductController extends CI_Controller
 
     private function handleAjax()
     {
+        if ($this->input->post('add-to-cart'))
+        {
+            $this->addToCart();
+        }
+        if ($this->input->post('add-to-wishlist'))
+        {
+            $this->addToWishlist();
+        }
     }
 
 
     private function handlePost()
     {
+    }
+
+
+    private function addToCart()
+    {
+        try
+        {
+            $productCode = $this->input->post('product-code');
+
+            if ($this->CartModel->addToCart($productCode))
+            {
+                echo json_encode([
+                    'status' => 'success',
+                    'message' => null
+                ]);
+            }
+            else
+            {
+                echo json_encode([
+                    'status' => 'error',
+                    'message' => 'Failed to add item to cart, the item may already be in the cart.'
+                ]);
+            }
+        }
+        catch (Exception $exception)
+        {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Unknown error occurred when adding item to cart.'
+            ]);
+        }
+    }
+
+
+    private function addToWishlist()
+    {
+        try
+        {
+            $customerId = $this->session->userdata('customerId');
+            $productCode = $this->input->post('product-code');
+
+            if ($this->CartModel->addToWishlist($customerId, $productCode))
+            {
+                echo json_encode([
+                    'status' => 'success',
+                    'message' => null
+                ]);
+            }
+            else
+            {
+                echo json_encode([
+                    'status' => 'error',
+                    'message' => 'Unknown error occurred when adding item to wishlist.'
+                ]);
+            }
+        }
+        catch (Exception $exception)
+        {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Unknown error occurred when adding item to wishlist.'
+            ]);
+        }
     }
 
 

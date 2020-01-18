@@ -10,6 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <head>
     <?php $this->load->view('includes/head') ?>
     <title>Products</title>
+    <script src="<?= $jsBase . "products.js" ?>" type="module"></script>
 </head>
 <body>
 

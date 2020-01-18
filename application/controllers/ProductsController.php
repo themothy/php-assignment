@@ -65,10 +65,9 @@ class ProductsController extends CI_Controller
     {
         try
         {
-            $customerId = $this->session->userdata('customerId');
             $productCode = $this->input->post('product-code');
 
-            if ($this->CartModel->addToCart($customerId, $productCode))
+            if ($this->CartModel->addToCart($productCode))
             {
                 echo json_encode([
                     'status' => 'success',

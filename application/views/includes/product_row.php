@@ -10,8 +10,6 @@ $jsBase = base_url() . "assets/js/";
  */
 ?>
 
-<script src="<?= $jsBase . "products.js" ?>" type="module"></script>
-
 <div id="<?= $product->productCode ?>" class="product-row pt-3 pb-3 border-bottom">
     <div class="product-image float-left pr-4 pt-1">
         <a href="<?= $base ?>/product/<?= $product->productCode ?>">

@@ -6,25 +6,8 @@ import {
     JSONHttpRequest
 } from "./modules/http-request.js";
 
-setProductEventListeners();
-
-function setProductEventListeners() {
-	//
-	// Cart buttons
-	//
-    let cartButtons = document.querySelectorAll('button[name="add-to-cart"]');
-    for (let i = 0; i < cartButtons.length; i++) {
-        cartButtons[i].addEventListener("click", onCartClick);
-    }
-
-    //
-    // Wishlist buttons
-	//
-    let wishlistButtons = document.querySelectorAll('button[name="add-to-wishlist"]');
-    for (let i = 0; i < wishlistButtons.length; i++) {
-        wishlistButtons[i].addEventListener("click", onWishlistClick);
-    }
-}
+document.getElementById('add-to-cart').addEventListener("click", onCartClick);
+document.getElementById('add-to-wishlist').addEventListener("click", onWishlistClick);
 
 function onCartClick(event) {
     addToCart(event.target);
@@ -45,7 +28,7 @@ function addToCart(target) {
             alert("failed to add to cart");
         }
     };
-    let uri = baseUrl() + '/products';
+    let uri = baseUrl() + '/product/' + productCode;
     let data = {
         'ajax': true,
         'add-to-cart': true,
@@ -66,7 +49,7 @@ function addToWishlist(target) {
 			alert("failed to add to wishlist");
 		}
 	};
-	let uri = baseUrl() + '/products';
+	let uri = baseUrl() + '/product/' + productCode;
 	let data = {
 		'ajax': true,
 		'add-to-wishlist': true,
