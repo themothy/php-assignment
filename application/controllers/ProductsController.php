@@ -12,8 +12,9 @@ class ProductsController extends CI_Controller
     {
         parent::__construct();
         $this->load->model('ProductModel');
-        $this->load->model('CartModel');
         $this->load->model('ProductsMapper');
+        $this->load->model('CartModel');
+        $this->load->model('WishlistModel');
         $this->load->helper('url');
         $this->load->library('pagination');
     }
@@ -78,7 +79,7 @@ class ProductsController extends CI_Controller
             {
                 echo json_encode([
                     'status' => 'error',
-                    'message' => 'Unknown error occurred when adding item to cart.'
+                    'message' => 'Failed to add item to cart, the item may already be in the cart.'
                 ]);
             }
         }
@@ -99,7 +100,7 @@ class ProductsController extends CI_Controller
 			$customerId = $this->session->userdata('customerId');
 			$productCode = $this->input->post('product-code');
 
-			if ($this->CartModel->addToWishlist($customerId, $productCode))
+			if ($this->WishlistModel->addToWishlist($customerId, $productCode))
 			{
 				echo json_encode([
 					'status' => 'success',
@@ -110,7 +111,7 @@ class ProductsController extends CI_Controller
 			{
 				echo json_encode([
 					'status' => 'error',
-					'message' => 'Unknown error occurred when adding item to wishlist.'
+					'message' => 'Failed to add item to wishlist, the item may already be in the wishlist.'
 				]);
 			}
 		}

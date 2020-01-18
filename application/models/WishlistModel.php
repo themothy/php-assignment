@@ -9,6 +9,7 @@ class WishlistModel extends CI_Model
         parent::__construct();
         $this->load->model('data_mappers/WishlistMapper');
         $this->load->model('data_mappers/ProductsMapper');
+        $this->load->library('session');
     }
 
 
@@ -18,5 +19,11 @@ class WishlistModel extends CI_Model
             'customer-id' => $customerId,
             'product-code' => $productCode,
         ]);
+    }
+
+    public function removeFromWishlist(string $productCode)
+    {
+        $customerId = $this->session->customerId;
+        return $this->WishlistMapper->delete($customerId, $productCode);
     }
 }

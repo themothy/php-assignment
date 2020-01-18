@@ -61,4 +61,4 @@ $route['logout'] = 'LogoutController/index';
 $route['products'] = 'ProductsController/index';
 $route['product/(:any)'] = 'ProductController/index/$1';
 $route['cart'] = 'CartController/index';
-$route['wishlist'] = 'WishlistController/index';
+$route['wish-list'] = 'WishlistController/index';

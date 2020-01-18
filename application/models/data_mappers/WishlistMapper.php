@@ -67,6 +67,24 @@ class WishlistMapper extends CI_Model
 
     public function delete(int $customerId, string $productCode): bool
     {
+        $sql = '
+            DELETE FROM wishlist 
+            WHERE customerId = ? AND productCode = ?
+            ';
+
+        $this->db->query($sql, [
+            $customerId,
+            $productCode,
+        ]);
+
+        if ($this->db->affected_rows() == 1)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
 

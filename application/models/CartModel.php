@@ -7,18 +7,12 @@ class CartModel extends CI_Model
     function __construct()
     {
         parent::__construct();
-        $this->load->model('data_mappers/ProductsMapper');
         $this->load->library('session');
     }
 
 
     public function addToCart(string $productCode, int $quantity = 1): bool
     {
-        if ($this->session->has_userdata('cart') == false)
-        {
-            $this->session->set_userdata('cart', []);
-        }
-
         if ($this->productIsInCart($productCode) == false)
         {
             $cart = $this->session->cart;
@@ -31,6 +25,47 @@ class CartModel extends CI_Model
             $this->session->set_userdata('cart', $cart);
 
             return true;
+        }
+
+        return false;
+    }
+
+
+    public function removeFromCart(string $productCode): bool
+    {
+        $cart = $this->session->cart;
+
+        for ($i = 0; $i < count($cart); $i++)
+        {
+            if ($cart[$i]['productCode'] == $productCode)
+            {
+                unset($cart[$i]);
+
+                // Re-indexing the cart array.
+                $cart = array_values($cart);
+
+                $this->session->set_userdata('cart', $cart);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
+    public function updateQuantity(string $productCode, int $quantity): bool
+    {
+        $cart = $this->session->cart;
+
+        for ($i = 0; $i < count($cart); $i++)
+        {
+            if ($cart[$i]['productCode'] == $productCode)
+            {
+                $cart[$i]['quantity'] = $quantity;
+
+                $this->session->set_userdata('cart', $cart);
+                return true;
+            }
         }
 
         return false;

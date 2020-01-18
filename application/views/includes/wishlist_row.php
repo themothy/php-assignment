@@ -1,16 +1,13 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 $this->load->helper('url');
-$img_base = base_url() . "assets/images/";
 $base = base_url() . index_page();
-$jsBase = base_url() . "assets/js/";
+$img_base = base_url() . "assets/images/";
 
 /**
  * @var $wishlistItem
  */
 ?>
-
-<script src="<?= $jsBase . "wishlist.js" ?>" type="module"></script>
 
 <div id="<?= $wishlistItem->productCode ?>" class="product-row pt-3 pb-3 border-bottom">
     <div class="product-image float-left pr-4 pt-1">
@@ -20,7 +17,7 @@ $jsBase = base_url() . "assets/js/";
     </div>
     <div class="float-right pt-1">
         <div>
-            <button type="button" name="remove-from-cart" class="btn btn-outline-danger" product-code="<?= $wishlistItem->productCode ?>">Remove</button>
+            <button type="button" name="remove-from-wishlist" class="btn btn-outline-danger" product-code="<?= $wishlistItem->productCode ?>">Remove</button>
         </div>
     </div>
     <div class="product-info">

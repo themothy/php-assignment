@@ -1,5 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+$this->load->helper('url');
+$jsBase = base_url() . "assets/js/";
 
 /**
  * @var array $wishlistItems
@@ -10,6 +12,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <head>
     <?php $this->load->view('includes/head') ?>
     <title>Wishlist</title>
+    <script src="<?= $jsBase . "wishlist.js" ?>" type="module"></script>
 </head>
 <body>
 

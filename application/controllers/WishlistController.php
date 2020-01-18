@@ -43,6 +43,10 @@ class WishlistController extends CI_Controller
 
     private function handleAjax()
     {
+        if ($this->input->post('remove-from-wishlist'))
+        {
+            $this->removeFromWishlist();
+        }
     }
 
 
@@ -51,10 +55,41 @@ class WishlistController extends CI_Controller
     }
 
 
+    private function removeFromWishlist()
+    {
+        try
+        {
+            $productCode = $this->input->post('product-code');
+
+            if ($this->WishlistModel->removeFromWishlist($productCode))
+            {
+                echo json_encode([
+                    'status' => 'success',
+                    'message' => null
+                ]);
+            }
+            else
+            {
+                echo json_encode([
+                    'status' => 'error',
+                    'message' => 'Failed to remove item from wishlist, the item may not be in the wishlist.'
+                ]);
+            }
+        }
+        catch (Exception $exception)
+        {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Unknown error occurred when removing item from wishlist.'
+            ]);
+        }
+    }
+
+
     private function setData()
     {
         # Cart items.
-        $this->data['wishlistItems'] = $this->CartMapper->fetchByCustomerId($this->session->customerId);
+        $this->data['wishlistItems'] = $this->WishlistMapper->fetchByCustomerId($this->session->customerId);
 
         for ($i = 0; $i < count($this->data['wishlistItems']); $i++)
         {

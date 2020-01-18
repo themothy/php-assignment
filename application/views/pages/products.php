@@ -1,5 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+$base = base_url() . index_page();
+$jsBase = base_url() . "assets/js/";
 
 /**
  * @var array $products

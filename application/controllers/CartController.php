@@ -12,7 +12,7 @@ class CartController extends CI_Controller
     {
         parent::__construct();
         $this->load->model('CartModel');
-        $this->load->model('ProductsMapper');
+        $this->load->model('data_mappers/ProductsMapper');
         $this->load->helper('url');
     }
 
@@ -42,11 +42,82 @@ class CartController extends CI_Controller
 
     private function handleAjax()
     {
+        if ($this->input->post('remove-from-cart'))
+        {
+            $this->removeFromCart();
+        }
+        if ($this->input->post('update-quantity'))
+        {
+            $this->updateQuantity();
+        }
     }
 
 
     private function handlePost()
     {
+    }
+
+
+    private function removeFromCart()
+    {
+        try
+        {
+            $productCode = $this->input->post('product-code');
+
+            if ($this->CartModel->removeFromCart($productCode))
+            {
+                echo json_encode([
+                    'status' => 'success',
+                    'message' => null
+                ]);
+            }
+            else
+            {
+                echo json_encode([
+                    'status' => 'error',
+                    'message' => 'Failed to remove item from cart, the item may not be in the cart.'
+                ]);
+            }
+        }
+        catch (Exception $exception)
+        {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Unknown error occurred when removing item from cart.'
+            ]);
+        }
+    }
+
+
+    private function updateQuantity()
+    {
+        try
+        {
+            $productCode = $this->input->post('product-code');
+            $quantity = $this->input->post('new-quantity');
+
+            if ($this->CartModel->updateQuantity($productCode, $quantity))
+            {
+                echo json_encode([
+                    'status' => 'success',
+                    'message' => null
+                ]);
+            }
+            else
+            {
+                echo json_encode([
+                    'status' => 'error',
+                    'message' => 'Failed to remove item from cart, the item may not be in the cart.'
+                ]);
+            }
+        }
+        catch (Exception $exception)
+        {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Unknown error occurred when removing item from cart.'
+            ]);
+        }
     }
 
 

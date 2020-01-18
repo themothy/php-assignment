@@ -1,16 +1,13 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 $this->load->helper('url');
-$img_base = base_url() . "assets/images/";
 $base = base_url() . index_page();
-$jsBase = base_url() . "assets/js/";
+$img_base = base_url() . "assets/images/";
 
 /**
  * @var array $cartItem
  */
 ?>
-
-<script src="<?= $jsBase . "cart.js" ?>" type="module"></script>
 
 <div id="<?= $cartItem['productCode'] ?>" class="product-row pt-3 pb-3 border-bottom">
     <div class="product-image float-left pr-4 pt-1">
@@ -24,7 +21,7 @@ $jsBase = base_url() . "assets/js/";
         </div>
         <div class="pt-1">
             <label>Quantity</label>
-            <input type="number" name="item-quantity" value="<?= $cartItem['quantity'] ?>">
+            <input type="number" name="item-quantity" value="<?= $cartItem['quantity'] ?>" product-code="<?= $cartItem['productCode'] ?>" min="1">
         </div>
     </div>
     <div class="product-info">
