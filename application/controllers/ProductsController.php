@@ -39,12 +39,12 @@ class ProductsController extends CI_Controller
             else
             {
                 $this->handlePost();
-                $this->load->view('pages/product/product-list', $this->data);
+                $this->load->view('pages/product/product_list', $this->data);
             }
         }
         else
         {
-            $this->load->view('pages/product/product-list', $this->data);
+            $this->load->view('pages/product/product_list', $this->data);
         }
     }
 

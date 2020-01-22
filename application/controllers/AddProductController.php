@@ -1,12 +1,11 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class ProductController extends CI_Controller
+class AddProductController extends CI_Controller
 {
-    private $data = [
-        'product' => null
-    ];
-
+	private $data = [
+		'product' => null,
+	];
 
     public function __construct()
     {
@@ -17,10 +16,8 @@ class ProductController extends CI_Controller
     }
 
 
-    public function index(string $productCode)
+    public function index()
     {
-        $this->setData($productCode);
-
         if ($this->input->post('ajax'))
         {
             $this->handleAjax();
@@ -28,7 +25,7 @@ class ProductController extends CI_Controller
         else
         {
             $this->handlePost();
-            $this->load->view('pages/product/product', $this->data);
+            $this->load->view('pages/product/add_product', $this->data);
         }
     }
 
@@ -45,7 +42,5 @@ class ProductController extends CI_Controller
 
     private function setData(string $productCode)
     {
-        # Product data.
-        $this->data['product'] = $this->ProductsMapper->fetch($productCode);
     }
 }

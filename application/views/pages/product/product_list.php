@@ -30,7 +30,12 @@ $jsBase = base_url() . "assets/js/";
 
         <div class="pt-2">
             <ul class="pagination">
-                <?php if ($pageNumber == 1): ?>
+				<?php
+				$lastPageNumber = ceil($productCount / $itemsPerPage);
+				$linkCount = 5;
+				?>
+
+				<?php if ($pageNumber == 1): ?>
                     <li class="page-item disabled">
                         <a class="page-link" href="#">&laquo;</a>
                     </li>
@@ -40,7 +45,31 @@ $jsBase = base_url() . "assets/js/";
                     </li>
                 <?php endif ?>
 
-                <?php for ($i = 1; $i <= ceil($productCount / $itemsPerPage); $i++): ?>
+				<?php
+				$start = 1;
+				$end = $lastPageNumber <= $linkCount ? $lastPageNumber : $linkCount;
+				$diff = floor($linkCount / 2);
+
+				if ($lastPageNumber > $linkCount)
+				{
+					if ($pageNumber < $diff + 1)
+					{
+						$start = 1;
+						$end = $linkCount;
+					}
+					else if ($pageNumber > $linkCount - $diff + 1)
+					{
+						$start = $lastPageNumber - $linkCount + 1;
+						$end = $lastPageNumber;
+					}
+					else
+					{
+						$start = $pageNumber - $diff;
+						$end = $pageNumber + $diff;
+					}
+				}
+				?>
+                <?php for ($i = $start; $i <= $end; $i++): ?>
                     <?php if ($i == $pageNumber): ?>
                         <li class="page-item active">
                             <a class="page-link" href="<?= $base ?>/product-list/<?= $i ?>"><?= $i ?></a>
@@ -52,7 +81,7 @@ $jsBase = base_url() . "assets/js/";
                     <?php endif ?>
                 <?php endfor ?>
 
-                <?php if ($pageNumber == ceil($productCount / $itemsPerPage)): ?>
+                <?php if ($pageNumber == $lastPageNumber): ?>
                     <li class="page-item disabled">
                         <a class="page-link" href="#">&raquo;</a>
                     </li>
