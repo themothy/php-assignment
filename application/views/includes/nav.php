@@ -1,8 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 $this->load->helper('url');
-$img_base = base_url() . "assets/images/";
 $base = base_url() . index_page();
+$img_base = base_url() . "assets/images/";
 ?>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -18,10 +18,10 @@ $base = base_url() . index_page();
                 <li class="nav-item">
                     <a class="nav-link" href="<?= $base ?>">Home</a>
                 </li>
-
-                <?php if ($this->session->userType == 'admin' || $this->session->userType == 'normal'): ?>
+                <!-- LOGGED IN -->
+                <?php if ($this->session->loggedIn == true): ?>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?= $base ?>/products">Products</a>
+                        <a class="nav-link" href="<?= $base ?>/product-list">Product list</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="<?= $base ?>/cart">Cart</a>
@@ -29,25 +29,30 @@ $base = base_url() . index_page();
                     <li class="nav-item">
                         <a class="nav-link" href="<?= $base ?>/wish-list">Wish List</a>
                     </li>
+
+                    <?php if ($this->session->userType == 'admin'): ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?= $base ?>/add-product">Add product</a>
+                        </li>
+                    <?php endif ?>
                 <?php endif ?>
             </ul>
 
-            <?php if ($this->session->loggedIn == true): ?>
-                <ul class="navbar-nav ml-auto">
+            <!-- RIGHT SIDE -->
+            <ul class="navbar-nav ml-auto">
+                <?php if ($this->session->loggedIn == true): ?>
                     <li class="nav-item">
                         <a class="nav-link" href="<?= $base ?>/logout">Logout</a>
                     </li>
-                </ul>
-            <?php else: ?>
-                <ul class="navbar-nav ml-auto">
+                <?php else: ?>
                     <li class="nav-item">
                         <a class="nav-link" href="<?= $base ?>/login">Login</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="<?= $base ?>/register">Register</a>
                     </li>
-                </ul>
-            <?php endif ?>
+                <?php endif ?>
+            </ul>
         </div>
     </div>
 </nav>

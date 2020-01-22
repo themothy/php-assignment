@@ -13,17 +13,37 @@ class WishlistModel extends CI_Model
     }
 
 
-    public function addToWishlist(int $customerId, string $productCode)
+    public function addToWishlist(int $customerId, string $productCode): bool
     {
-        return $this->WishlistMapper->insert([
-            'customer-id' => $customerId,
-            'product-code' => $productCode,
-        ]);
+        if ($this->productIsInWishlist($productCode) == false)
+        {
+            return $this->WishlistMapper->insert([
+                'customer-id' => $customerId,
+                'product-code' => $productCode,
+            ]);
+        }
+        return false;
     }
 
-    public function removeFromWishlist(string $productCode)
+
+    public function removeFromWishlist(string $productCode): bool
     {
         $customerId = $this->session->customerId;
         return $this->WishlistMapper->delete($customerId, $productCode);
+    }
+
+
+    private function productIsInWishlist($productCode): bool
+    {
+        $wishlistItems = $this->WishlistMapper->fetchByCustomerId($this->session->customerId);
+
+        foreach ($wishlistItems as $item)
+        {
+            if ($item['productCode'] == $productCode)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

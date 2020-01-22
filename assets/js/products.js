@@ -45,7 +45,7 @@ function addToCart(target) {
             alert("failed to add to cart");
         }
     };
-    let uri = baseUrl() + '/products';
+    let uri = baseUrl() + '/product-list';
     let data = {
         'ajax': true,
         'add-to-cart': true,
@@ -66,7 +66,7 @@ function addToWishlist(target) {
 			alert("failed to add to wishlist");
 		}
 	};
-	let uri = baseUrl() + '/products';
+	let uri = baseUrl() + '/product-list';
 	let data = {
 		'ajax': true,
 		'add-to-wishlist': true,

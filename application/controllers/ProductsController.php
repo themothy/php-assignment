@@ -4,8 +4,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class ProductsController extends CI_Controller
 {
     private $data = [
-        'products' => []
+        'products' => [],
+        'pageNumber' => 1,
+        'productCount' => 0,
+        'itemsPerPage' => 0,
     ];
+    private $itemsPerPage = 20;
+    private $totalItems;
 
 
     public function __construct()
@@ -16,14 +21,14 @@ class ProductsController extends CI_Controller
         $this->load->model('CartModel');
         $this->load->model('WishlistModel');
         $this->load->helper('url');
-        $this->load->library('pagination');
+
+        $this->totalItems = $this->ProductsMapper->rowCount();
     }
 
 
-    public function index()
+    public function index(int $pageNumber)
     {
-        $this->setPagination();
-        $this->setData();
+        $this->setData($pageNumber);
 
         if ($this->session->loggedIn == true)
         {
@@ -34,12 +39,12 @@ class ProductsController extends CI_Controller
             else
             {
                 $this->handlePost();
-                $this->load->view('pages/products', $this->data);
+                $this->load->view('pages/product/product-list', $this->data);
             }
         }
         else
         {
-            redirect('home');
+            $this->load->view('pages/product/product-list', $this->data);
         }
     }
 
@@ -125,18 +130,13 @@ class ProductsController extends CI_Controller
 	}
 
 
-    private function setPagination()
-    {
-        $config['base_url'] = site_url('ProductsController/index/');
-        $config['total_rows'] = $this->ProductsMapper->rowCount();
-        $config['per_page'] = 20;
-        $this->pagination->initialize($config);
-    }
-
-
-    private function setData()
+    private function setData(int $pageNumber)
     {
         # Products data.
-        $this->data['products'] = $this->ProductsMapper->fetchAll(20, $this->uri->segment(3));
+        $offset = $pageNumber * $this->itemsPerPage - 20;
+        $this->data['products'] = $this->ProductsMapper->fetchAll($this->itemsPerPage, $offset);
+        $this->data['pageNumber'] = $pageNumber;
+        $this->data['productCount'] = $this->totalItems;
+        $this->data['itemsPerPage'] = $this->itemsPerPage;
     }
 }

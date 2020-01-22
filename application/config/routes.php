@@ -58,7 +58,12 @@ $route['login'] = 'LoginController/index';
 $route['register'] = 'RegisterController/index';
 $route['logout'] = 'LogoutController/index';
 
-$route['products'] = 'ProductsController/index';
+# Normal user
+$route['product-list'] = 'ProductsController/index/1';
+$route['product-list/(:num)'] = 'ProductsController/index/$1';
 $route['product/(:any)'] = 'ProductController/index/$1';
 $route['cart'] = 'CartController/index';
 $route['wish-list'] = 'WishlistController/index';
+
+# Admin user
+$route['add-product'] = 'AddProductController/index';

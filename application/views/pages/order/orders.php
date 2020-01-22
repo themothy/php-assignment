@@ -1,18 +1,18 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-$base = base_url() . index_page();
+$this->load->helper('url');
 $jsBase = base_url() . "assets/js/";
 
 /**
- * @var array $products
+ * @var array $orderItems
  */
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <?php $this->load->view('includes/head') ?>
-    <title>Products</title>
-    <script src="<?= $jsBase . "products.js" ?>" type="module"></script>
+    <title>Cart</title>
+    <script src="<?= $jsBase . "orders.js" ?>" type="module"></script>
 </head>
 <body>
 
@@ -20,11 +20,9 @@ $jsBase = base_url() . "assets/js/";
 
 <div class="body">
     <div class="container">
-        <?php foreach ($products as $product): ?>
-            <?php $this->load->view('includes/product_row', ['product' => $product]) ?>
+        <?php foreach ($orderItems as $orderItem): ?>
+            <?php $this->load->view('includes/order_row', ['orderItem' => $orderItem]) ?>
         <?php endforeach ?>
-
-        <?= $this->pagination->create_links() ?>
     </div>
 </div>
 
