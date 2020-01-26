@@ -8,6 +8,7 @@ import {
 
 document.getElementById('add-to-cart').addEventListener("click", onCartClick);
 document.getElementById('add-to-wishlist').addEventListener("click", onWishlistClick);
+document.getElementById('delete').addEventListener("click", onDeleteClick);
 
 function onCartClick(event) {
     addToCart(event.target);
@@ -15,6 +16,10 @@ function onCartClick(event) {
 
 function onWishlistClick(event) {
     addToWishlist(event.target);
+}
+
+function onDeleteClick(event) {
+    deleteProduct(event.target);
 }
 
 function addToCart(target) {
@@ -25,7 +30,7 @@ function addToCart(target) {
             alert("added to cart");
         }
         else if (response['status'] == 'error') {
-            alert("failed to add to cart");
+            alert(response['message']);
         }
     };
     let uri = baseUrl() + '/product/' + productCode;
@@ -46,7 +51,7 @@ function addToWishlist(target) {
 			alert("added to wishlist");
 		}
 		else if (response['status'] == 'error') {
-			alert("failed to add to wishlist");
+            alert(response['message']);
 		}
 	};
 	let uri = baseUrl() + '/product/' + productCode;
@@ -57,4 +62,25 @@ function addToWishlist(target) {
 	};
 
 	JSONHttpRequest(uri, data, handleResponse);
+}
+
+function deleteProduct(target) {
+    let productCode = target.getAttribute('product-code');
+
+    let handleResponse = function (response) {
+        if (response['status'] == 'success') {
+            window.location.replace(baseUrl() + "/delete-product-confirm");
+        }
+        else if (response['status'] == 'error') {
+            alert(response['message']);
+        }
+    };
+    let uri = baseUrl() + '/product/' + productCode;
+    let data = {
+        'ajax': true,
+        'delete': true,
+        'product-code': productCode,
+    };
+
+    JSONHttpRequest(uri, data, handleResponse);
 }

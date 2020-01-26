@@ -67,3 +67,6 @@ $route['wish-list'] = 'WishlistController/index';
 
 # Admin user
 $route['add-product'] = 'AddProductController/index';
+$route['add-product-confirm'] = 'AddProductController/confirm';
+$route['delete-product-confirm'] = 'ProductController/deleteConfirm';
+$route['edit-product/(:any)'] = 'EditProductController/index/$1';

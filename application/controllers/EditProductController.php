@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class AddProductController extends CI_Controller
+class EditProductController extends CI_Controller
 {
     private $data = [
         'form' => [
@@ -12,7 +12,7 @@ class AddProductController extends CI_Controller
             'quantity' => '',
             'bulk-buy-price' => '',
             'bulk-sale-price' => '',
-            'photo' => '',
+            'photo' => null,
         ],
         'product' => null,
     ];
@@ -27,11 +27,11 @@ class AddProductController extends CI_Controller
     }
 
 
-    public function index()
+    public function index(string $productCode)
     {
         if ($this->session->userType == 'admin')
         {
-            $this->setData();
+            $this->setData($productCode);
 
             if ($this->input->post('ajax'))
             {
@@ -40,21 +40,8 @@ class AddProductController extends CI_Controller
             else
             {
                 $this->handlePost();
-                $this->load->view('pages/product/add_product', $this->data);
+                $this->load->view('pages/product/edit_product', $this->data);
             }
-        }
-        else
-        {
-            redirect('home');
-        }
-    }
-
-
-    public function confirm()
-    {
-        if ($this->session->userType == 'admin')
-        {
-            $this->load->view("pages/product/add_product_confirm");
         }
         else
         {
@@ -65,58 +52,23 @@ class AddProductController extends CI_Controller
 
     private function handleAjax()
     {
-        if ($this->input->post('verify-product-code-free'))
-        {
-            $this->verifyProductCodeIsFree();
-        }
     }
 
 
     private function handlePost()
     {
-        if ($this->input->post('add'))
+        if ($this->input->post('save'))
         {
-            $this->addProduct();
+            $this->editProduct();
         }
     }
 
 
-    private function verifyProductCodeIsFree()
+    private function editProduct()
     {
         try
         {
-            $productCode = $this->input->post('product-code');
-            $productCode = str_replace(' ', '_', $productCode);
-
-            if ($this->ProductModel->productCodeIsFree($productCode))
-            {
-                echo json_encode([
-                    'status' => 'success',
-                    'message' => null
-                ]);
-            }
-            else
-            {
-                echo json_encode([
-                    'status' => 'error',
-                    'message' => "Product code is already in use."
-                ]);
-            }
-        }
-        catch (Exception $exception)
-        {
-            echo json_encode([
-                'status' => 'error',
-                'message' => "Failed to verify if product code is already in use, there was an unknown error that occurred."
-            ]);
-        }
-    }
-
-
-    private function addProduct()
-    {
-        try
-        {
+            $this->setDataFromPost();
             $product = $this->data['form'];
             $product['photo'] = 'noimage.jpg';
 
@@ -128,13 +80,13 @@ class AddProductController extends CI_Controller
                 $product['photo'] = $_FILES['photo']['name'];
             }
 
-            $this->ProductModel->addProduct($product);
-            redirect('add-product-confirm');
+            $this->ProductModel->editProduct($this->data['product']->productCode, $product);
+            redirect('product/' . $this->data['product']->productCode);
         }
         catch (Exception $exception)
         {
             $this->data['error'] = [
-                'id' => 'add-product',
+                'id' => 'edit-product',
                 'message' => $exception->getMessage(),
             ];
         }
@@ -194,7 +146,22 @@ class AddProductController extends CI_Controller
     }
 
 
-    private function setData()
+    private function setData(string $productCode)
+    {
+        # Product data.
+        $this->data['product'] = $this->ProductsMapper->fetch($productCode);
+
+        # Form data
+        $this->data['form']['product-code'] = $this->data['product']->productCode;
+        $this->data['form']['description'] = $this->data['product']->description;
+        $this->data['form']['product-line'] = $this->data['product']->productLine;
+        $this->data['form']['supplier'] = $this->data['product']->supplier;
+        $this->data['form']['quantity'] = $this->data['product']->quantityInStock;
+        $this->data['form']['bulk-buy-price'] = $this->data['product']->bulkBuyPrice;
+        $this->data['form']['bulk-sale-price'] = $this->data['product']->bulkSalePrice;
+    }
+
+    private function setDataFromPost()
     {
         # Form data.
         foreach ($this->data['form'] as $key => $value)

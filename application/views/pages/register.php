@@ -2,6 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 $this->load->helper('url');
 $jsBase = base_url() . "assets/js/";
+
 /**
  * @var array $form
  * @var Message $message

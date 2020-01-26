@@ -31,7 +31,7 @@ function removeFromWishlist(target) {
             wishlistElement.parentNode.removeChild(wishlistElement);
         }
         else if (response['status'] == 'error') {
-            alert("failed to remove from wishlist");
+            alert(response['message']);
         }
     };
     let uri = baseUrl() + '/wish-list';

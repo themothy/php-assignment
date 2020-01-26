@@ -35,6 +35,19 @@ class ProductController extends CI_Controller
     }
 
 
+    public function deleteConfirm()
+    {
+        if ($this->session->userType == 'admin')
+        {
+            $this->load->view('pages/product/delete_product_confirm');
+        }
+        else
+        {
+            redirect('home');
+        }
+    }
+
+
     private function handleAjax()
     {
         if ($this->input->post('add-to-cart'))
@@ -44,6 +57,10 @@ class ProductController extends CI_Controller
         if ($this->input->post('add-to-wishlist'))
         {
             $this->addToWishlist();
+        }
+        if ($this->input->post('delete'))
+        {
+            $this->deleteProduct();
         }
     }
 
@@ -111,6 +128,44 @@ class ProductController extends CI_Controller
             echo json_encode([
                 'status' => 'error',
                 'message' => 'Unknown error occurred when adding item to wishlist.'
+            ]);
+        }
+    }
+
+
+    private function deleteProduct()
+    {
+        try
+        {
+            $productCode = $this->input->post('product-code');
+
+            if ($this->session->userType != 'admin')
+            {
+                echo json_encode([
+                    'status' => 'error',
+                    'message' => "You do not have permission to execute this command."
+                ]);
+            }
+            else if ($this->ProductModel->deleteProduct($productCode))
+            {
+                echo json_encode([
+                    'status' => 'success',
+                    'message' => null
+                ]);
+            }
+            else
+            {
+                echo json_encode([
+                    'status' => 'error',
+                    'message' => 'Failed to delete product, it may not exist in the database.'
+                ]);
+            }
+        }
+        catch (Exception $exception)
+        {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Unknown error occurred when delete product.'
             ]);
         }
     }

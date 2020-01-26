@@ -3,6 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $this->load->helper('url');
 $img_base = base_url() . "assets/images/";
 $jsBase = base_url() . "assets/js/";
+$base = base_url() . index_page();
 
 /**
  * @var $product
@@ -29,13 +30,27 @@ $jsBase = base_url() . "assets/js/";
 <div class="body">
     <div class="container">
         <?php if ($product != null): ?>
-            <div class="pt-3">
-                <div class="float-left pr-2">
-                    <button type="button" id="add-to-cart" class="btn btn-success" product-code="<?= $product->productCode ?>">Add to cart</button>
+            <div class="row pt-3">
+                <div class="col">
+                    <div class="float-left mr-2">
+                        <button type="button" id="add-to-cart" class="btn btn-success" product-code="<?= $product->productCode ?>">Add to cart</button>
+                    </div>
+                    <div>
+                        <button type="button" id="add-to-wishlist" class="btn btn-outline-secondary" product-code="<?= $product->productCode ?>">Add to wishlist</button>
+                    </div>
                 </div>
-                <div>
-                    <button type="button" id="add-to-wishlist" class="btn btn-outline-secondary" product-code="<?= $product->productCode ?>">Add to wishlist</button>
-                </div>
+                <?php if ($this->session->userType == 'admin'): ?>
+                    <div class="col">
+                        <div class="float-right">
+                            <button type="button" id="delete" class="btn btn-danger" product-code="<?= $product->productCode ?>">Delete</button>
+                        </div>
+                        <div class="float-right mr-2">
+                            <a href="<?= $base ?>/edit-product/<?= $product->productCode ?>">
+                                <button type="button" id="edit" class="btn btn-outline-primary" product-code="<?= $product->productCode ?>">Edit</button>
+                            </a>
+                        </div>
+                    </div>
+                <?php endif ?>
             </div>
             <div class="pt-3">
                 <img src="<?= $img_base ?>products/full/<?= $product->photo ?>" alt="<?= $product->photo ?>">

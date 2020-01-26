@@ -17,7 +17,7 @@ $img_base = base_url() . "assets/images/";
     </div>
     <div class="float-right pt-1">
         <div>
-            <button type="button" name="remove-from-wishlist" class="btn btn-outline-danger" product-code="<?= $wishlistItem->productCode ?>">Remove</button>
+            <button type="button" name="remove-from-wishlist" class="btn btn-danger" product-code="<?= $wishlistItem->productCode ?>">Remove</button>
         </div>
     </div>
     <div class="product-info">

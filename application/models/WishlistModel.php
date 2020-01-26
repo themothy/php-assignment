@@ -39,7 +39,7 @@ class WishlistModel extends CI_Model
 
         foreach ($wishlistItems as $item)
         {
-            if ($item['productCode'] == $productCode)
+            if ($item->productCode == $productCode)
             {
                 return true;
             }
