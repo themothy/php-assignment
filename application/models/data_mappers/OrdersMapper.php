@@ -17,6 +17,35 @@ class OrdersMapper extends CI_Model
 
     public function fetch(int $id)
     {
+        $sql = '
+            SELECT orderId, customerId, orderDate, requiredDate, shippedDate, status, comments
+            FROM orders
+            WHERE orderId = ?
+            ';
+
+        $query = $this->db->query($sql, [$id]);
+        $results = $query->result();
+
+        if (count($results) > 0)
+        {
+            return $results[0];
+        }
+        return null;
+    }
+
+
+    public function fetchByCustomerId(int $customerId): array
+    {
+        $sql = '
+            SELECT orderId, customerId, orderDate, requiredDate, shippedDate, status, comments
+            FROM orders
+            WHERE customerId = ?
+            ';
+
+        $query = $this->db->query($sql, [$customerId]);
+        $results = $query->result();
+
+        return $results;
     }
 
 
@@ -32,5 +61,14 @@ class OrdersMapper extends CI_Model
 
     public function fetchAll(): array
     {
+        $sql = '
+            SELECT orderId, customerId, orderDate, requiredDate, shippedDate, status, comments
+            FROM orders
+            ';
+
+        $query = $this->db->query($sql);
+        $results = $query->result();
+
+        return $results;
     }
 }

@@ -10,7 +10,7 @@ $jsBase = base_url() . "assets/js/";
  */
 ?>
 
-<div id="<?= $product->productCode ?>" class="product-row pt-3 pb-3 border-bottom row">
+<div id="<?= $product->productCode ?>" class="pt-3 pb-3 border-bottom row">
     <div
         <?php
         if ($this->session->userType == 'admin'):
@@ -25,22 +25,22 @@ $jsBase = base_url() . "assets/js/";
                 <img src="<?= $img_base ?>products/thumbs/<?= $product->photo ?>" alt="<?= $product->photo ?>">
             </a>
         </div>
-        <div class="product-info mt-1">
+        <div class="mt-1">
             <h3>
-                <a href="<?= $base ?>/product/<?= $product->productCode ?>" class="product-description text-secondary"><?= $product->description ?></a>
+                <a href="<?= $base ?>/product/<?= $product->productCode ?>" class="text-secondary"><?= $product->description ?></a>
             </h3>
-            <div class="bulk-buy-price">
+            <div>
                 <span class="text-muted">Bulk buy price:</span>
                 <strong>€<?= $product->bulkBuyPrice ?></strong>
             </div>
-            <div class="bulk-sale-price">
+            <div>
                 <span class="text-muted">Bulk sale price:</span>
                 <strong>€<?= $product->bulkSalePrice ?></strong>
             </div>
         </div>
     </div>
     <div class="col-2">
-        <div class="member-options">
+        <div>
             <div>
                 <button type="button" name="add-to-cart" class="btn btn-success w-100 m-1" product-code="<?= $product->productCode ?>">Add to cart</button>
             </div>
@@ -51,7 +51,7 @@ $jsBase = base_url() . "assets/js/";
     </div>
     <?php if ($this->session->userType == 'admin'): ?>
         <div class="col-2">
-            <div class="admin-options">
+            <div>
                 <div>
                     <button type="button" name="delete" class="btn btn-danger w-100 m-1" product-code="<?= $product->productCode ?>">Delete</button>
                 </div>

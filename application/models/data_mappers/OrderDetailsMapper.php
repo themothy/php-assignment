@@ -10,27 +10,42 @@ class OrderDetailsMapper extends CI_Model
     }
 
 
-    public function insert(array $data) : bool
+    public function insert(array $data): bool
     {
-            }
+    }
 
 
     public function fetch(int $id)
     {
-            }
+    }
 
 
-    public function update(int $id, array $newData) : bool
+    public function fetchByOrderId(int $orderId): array
     {
-            }
+        $sql = '
+            SELECT orderId, productId, quantityOrdered, priceEach
+            FROM orderdetails
+            WHERE orderId = ?
+            ';
+
+        $query = $this->db->query($sql, [$orderId]);
+        $results = $query->result();
+
+        return $results;
+    }
 
 
-    public function delete(int $id) : bool
+    public function update(int $id, array $newData): bool
     {
-            }
+    }
 
 
-    public function fetchAll() : array
+    public function delete(int $id): bool
     {
-            }
+    }
+
+
+    public function fetchAll(): array
+    {
+    }
 }

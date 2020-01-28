@@ -4,7 +4,7 @@ $this->load->helper('url');
 $jsBase = base_url() . "assets/js/";
 
 /**
- * @var array $orderItems
+ * @var array $orders
  */
 ?>
 <!DOCTYPE html>
@@ -20,7 +20,7 @@ $jsBase = base_url() . "assets/js/";
 
 <div class="body">
     <div class="container">
-        <?php foreach ($orderItems as $orderItem): ?>
+        <?php foreach ($orders as $orderItem): ?>
             <?php $this->load->view('includes/order_row', ['orderItem' => $orderItem]) ?>
         <?php endforeach ?>
     </div>
