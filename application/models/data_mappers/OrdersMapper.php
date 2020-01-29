@@ -40,6 +40,7 @@ class OrdersMapper extends CI_Model
             SELECT orderId, customerId, orderDate, requiredDate, shippedDate, status, comments
             FROM orders
             WHERE customerId = ?
+            ORDER BY orderDate DESC
             ';
 
         $query = $this->db->query($sql, [$customerId]);

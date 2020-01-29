@@ -51,6 +51,10 @@ class ProductsController extends CI_Controller
 
     private function handleAjax()
     {
+		if ($this->input->post('search'))
+		{
+			$this->deleteProduct();
+		}
         if ($this->input->post('add-to-cart'))
         {
             $this->addToCart();

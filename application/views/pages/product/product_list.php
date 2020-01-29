@@ -14,36 +14,47 @@ $jsBase = base_url() . "assets/js/";
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <?php $this->load->view('includes/head') ?>
-    <title>Products</title>
-    <script src="<?= $jsBase . "products.js" ?>" type="module"></script>
+	<?php $this->load->view('includes/head') ?>
+	<title>Products</title>
+	<script src="<?= $jsBase . "products.js" ?>" type="module"></script>
 </head>
 <body>
 
 <?php $this->load->view('includes/nav') ?>
 
 <div class="body">
-    <div class="container">
-        <?php foreach ($products as $product): ?>
-            <?php $this->load->view('includes/product_row', ['product' => $product]) ?>
-        <?php endforeach ?>
+	<div class="container">
+		<div class="mt-2">
+			<form class="form-inline my-2 my-lg-0">
+				<input id="search-input" class="form-control mr-sm-2 col-10" type="text" placeholder="Search">
+				<button id="search-button" class="btn btn-secondary my-2 my-sm-0 col" type="button">Search</button>
+			</form>
+		</div>
 
-        <div class="pt-2">
-            <ul class="pagination">
+		<hr>
+
+		<div id="product-list">
+			<?php foreach ($products as $product): ?>
+				<?php $this->load->view('includes/product_row', ['product' => $product]) ?>
+			<?php endforeach ?>
+		</div>
+
+		<div class="pt-2">
+			<ul class="pagination">
 				<?php
 				$lastPageNumber = ceil($productCount / $itemsPerPage);
 				$linkCount = 5;
 				?>
 
 				<?php if ($pageNumber == 1): ?>
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#">&laquo;</a>
-                    </li>
-                <?php else: ?>
-                    <li class="page-item">
-                        <a class="page-link" href="<?= $base ?>/product-list/<?= $pageNumber - 1 ?>">&laquo;</a>
-                    </li>
-                <?php endif ?>
+					<li class="page-item disabled">
+						<a class="page-link" href="#">&laquo;</a>
+					</li>
+				<?php else: ?>
+					<li class="page-item">
+						<a class="page-link" href="<?= $base ?>/product-list/<?= $pageNumber - 1 ?>">&laquo;</a>
+					</li>
+				<?php endif ?>
 
 				<?php
 				$start = 1;
@@ -69,30 +80,30 @@ $jsBase = base_url() . "assets/js/";
 					}
 				}
 				?>
-                <?php for ($i = $start; $i <= $end; $i++): ?>
-                    <?php if ($i == $pageNumber): ?>
-                        <li class="page-item active">
-                            <a class="page-link" href="<?= $base ?>/product-list/<?= $i ?>"><?= $i ?></a>
-                        </li>
-                    <?php else: ?>
-                        <li class="page-item">
-                            <a class="page-link" href="<?= $base ?>/product-list/<?= $i ?>"><?= $i ?></a>
-                        </li>
-                    <?php endif ?>
-                <?php endfor ?>
+				<?php for ($i = $start; $i <= $end; $i++): ?>
+					<?php if ($i == $pageNumber): ?>
+						<li class="page-item active">
+							<a class="page-link" href="<?= $base ?>/product-list/<?= $i ?>"><?= $i ?></a>
+						</li>
+					<?php else: ?>
+						<li class="page-item">
+							<a class="page-link" href="<?= $base ?>/product-list/<?= $i ?>"><?= $i ?></a>
+						</li>
+					<?php endif ?>
+				<?php endfor ?>
 
-                <?php if ($pageNumber == $lastPageNumber): ?>
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#">&raquo;</a>
-                    </li>
-                <?php else: ?>
-                    <li class="page-item">
-                        <a class="page-link" href="<?= $base ?>/product-list/<?= $pageNumber + 1 ?>">&raquo;</a>
-                    </li>
-                <?php endif ?>
-            </ul>
-        </div>
-    </div>
+				<?php if ($pageNumber == $lastPageNumber): ?>
+					<li class="page-item disabled">
+						<a class="page-link" href="#">&raquo;</a>
+					</li>
+				<?php else: ?>
+					<li class="page-item">
+						<a class="page-link" href="<?= $base ?>/product-list/<?= $pageNumber + 1 ?>">&raquo;</a>
+					</li>
+				<?php endif ?>
+			</ul>
+		</div>
+	</div>
 </div>
 
 <?php $this->load->view('includes/footer') ?>
