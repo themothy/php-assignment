@@ -27,6 +27,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <input type="password" id="password" name="password" class="form-control">
                 <div id="email-invalid-feedback" class="invalid-feedback"></div>
             </div>
+            <div class="custom-control custom-checkbox mt-2">
+                <input type="checkbox" class="custom-control-input" id="remember-me" name="remember-me">
+                <label class="custom-control-label" for="remember-me">Remember me</label>
+            </div>
             <div class="mt-3">
                 <input type="submit" name="login" value="Login" class="btn btn-primary">
             </div>

@@ -10,6 +10,12 @@ class OrdersMapper extends CI_Model
     }
 
 
+    public function rowCount(): int
+    {
+        return $this->db->count_all('orders');
+    }
+
+
     public function insert(array $data): bool
     {
     }
@@ -60,16 +66,18 @@ class OrdersMapper extends CI_Model
     }
 
 
-    public function fetchAll(): array
+    public function fetchAll(int $limit, ?int $offset): array
     {
+        $offset = ($offset == null) ? 0 : $offset;
+
         $sql = '
             SELECT orderId, customerId, orderDate, requiredDate, shippedDate, status, comments
             FROM orders
+            LIMIT ? OFFSET ?
             ';
 
-        $query = $this->db->query($sql);
+        $query = $this->db->query($sql, [$limit, $offset]);
         $results = $query->result();
-
         return $results;
     }
 }

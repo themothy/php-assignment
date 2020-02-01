@@ -65,7 +65,8 @@ $route['product/(:any)'] = 'ProductController/index/$1';
 $route['cart'] = 'CartController/index';
 $route['wish-list'] = 'WishlistController/index';
 $route['order-list'] = 'OrdersController/index';
-$route['order-list/(:num)'] = 'OrdersController/index/$1';
+$route['user-order-list'] = 'UserOrdersController/index/1';
+$route['user-order-list/(:num)'] = 'UserOrdersController/index/$1';
 $route['order/(:any)'] = 'OrderController/index/$1';
 
 # Admin user

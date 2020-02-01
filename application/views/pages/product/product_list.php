@@ -25,9 +25,9 @@ $jsBase = base_url() . "assets/js/";
 <div class="body">
 	<div class="container">
 		<div class="mt-2">
-			<form class="form-inline my-2 my-lg-0">
-				<input id="search-input" class="form-control mr-sm-2 col-10" type="text" placeholder="Search">
-				<button id="search-button" class="btn btn-secondary my-2 my-sm-0 col" type="button">Search</button>
+			<form class="form-inline my-2 my-lg-0" method="get">
+				<input id="search-input" name="search" class="form-control mr-sm-2 col-10" type="text" placeholder="Search">
+				<button id="search-button" class="btn btn-secondary my-2 my-sm-0 col" type="submit">Search</button>
 			</form>
 		</div>
 
@@ -63,21 +63,24 @@ $jsBase = base_url() . "assets/js/";
 
 				if ($lastPageNumber > $linkCount)
 				{
-					if ($pageNumber < $diff + 1)
-					{
-						$start = 1;
-						$end = $linkCount;
-					}
-					else if ($pageNumber > $linkCount - $diff + 1)
-					{
-						$start = $lastPageNumber - $linkCount + 1;
-						$end = $lastPageNumber;
-					}
-					else
-					{
-						$start = $pageNumber - $diff;
-						$end = $pageNumber + $diff;
-					}
+                    // Start at page 1.
+                    if ($pageNumber < $diff + 1)
+                    {
+                        $start = 1;
+                        $end = $linkCount;
+                    }
+                    // Start at last page - link count.
+                    else if ($pageNumber > $lastPageNumber - $diff + 1)
+                    {
+                        $start = $lastPageNumber - $linkCount + 1;
+                        $end = $lastPageNumber;
+                    }
+                    // Start in the middle somewhere
+                    else
+                    {
+                        $start = $pageNumber - $diff;
+                        $end = $pageNumber + $diff;
+                    }
 				}
 				?>
 				<?php for ($i = $start; $i <= $end; $i++): ?>

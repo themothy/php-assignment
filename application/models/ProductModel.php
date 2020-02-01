@@ -23,6 +23,12 @@ class ProductModel extends CI_Model
     }
 
 
+    public function search(string $text)
+    {
+        return $this->ProductsMapper->fetchDescriptionLike($text);
+    }
+
+
     public function addProduct(array $product)
     {
         if ($this->ProductsMapper->insert($product))

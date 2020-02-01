@@ -81,7 +81,7 @@ $img_base = base_url() . "assets/images/";
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Orders</a>
                         <div class="dropdown-menu">
                             <a class="dropdown-item" href="<?= $base ?>/order-list">Your orders</a>
-                            <a class="dropdown-item" href="<?= $base ?>/home">All users orders</a>
+                            <a class="dropdown-item" href="<?= $base ?>/user-order-list">All users orders</a>
                         </div>
                     </li>
                     <li class="nav-item">

@@ -36,6 +36,10 @@ class ProductsController extends CI_Controller
             {
                 $this->handleAjax();
             }
+            else if ($this->input->get('search'))
+            {
+                $this->search();
+            }
             else
             {
                 $this->handlePost();
@@ -51,18 +55,14 @@ class ProductsController extends CI_Controller
 
     private function handleAjax()
     {
-		if ($this->input->post('search'))
-		{
-			$this->deleteProduct();
-		}
         if ($this->input->post('add-to-cart'))
         {
             $this->addToCart();
         }
         if ($this->input->post('add-to-wishlist'))
-		{
-			$this->addToWishlist();
-		}
+        {
+            $this->addToWishlist();
+        }
         if ($this->input->post('delete'))
         {
             $this->deleteProduct();
@@ -72,6 +72,14 @@ class ProductsController extends CI_Controller
 
     private function handlePost()
     {
+    }
+
+
+    private function search()
+    {
+        $searchText = $this->input->get('search');
+        $result['products'] = $this->ProductModel->search($searchText);
+        $this->load->view('pages/product/search_product_list', $result);
     }
 
 
@@ -106,36 +114,36 @@ class ProductsController extends CI_Controller
     }
 
 
-	private function addToWishlist()
-	{
-		try
-		{
-			$customerId = $this->session->userdata('customerId');
-			$productCode = $this->input->post('product-code');
+    private function addToWishlist()
+    {
+        try
+        {
+            $customerId = $this->session->userdata('customerId');
+            $productCode = $this->input->post('product-code');
 
-			if ($this->WishlistModel->addToWishlist($customerId, $productCode))
-			{
-				echo json_encode([
-					'status' => 'success',
-					'message' => null
-				]);
-			}
-			else
-			{
-				echo json_encode([
-					'status' => 'error',
-					'message' => 'Failed to add item to wishlist, the item may already be in the wishlist.'
-				]);
-			}
-		}
-		catch (Exception $exception)
-		{
-			echo json_encode([
-				'status' => 'error',
-				'message' => 'Unknown error occurred when adding item to wishlist.'
-			]);
-		}
-	}
+            if ($this->WishlistModel->addToWishlist($customerId, $productCode))
+            {
+                echo json_encode([
+                    'status' => 'success',
+                    'message' => null
+                ]);
+            }
+            else
+            {
+                echo json_encode([
+                    'status' => 'error',
+                    'message' => 'Failed to add item to wishlist, the item may already be in the wishlist.'
+                ]);
+            }
+        }
+        catch (Exception $exception)
+        {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Unknown error occurred when adding item to wishlist.'
+            ]);
+        }
+    }
 
 
     private function deleteProduct()

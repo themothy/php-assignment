@@ -6,8 +6,6 @@ import {
 	JSONHttpRequest
 } from "./modules/http-request.js";
 
-document.getElementById('search-button').addEventListener("click", onSearchClick);
-
 function setProductEventListeners() {
 	//
 	// Cart buttons
@@ -36,10 +34,6 @@ function setProductEventListeners() {
 
 setProductEventListeners();
 
-function onSearchClick() {
-	search();
-}
-
 function onCartClick(event) {
 	addToCart(event.target);
 }
@@ -52,29 +46,6 @@ function onDeleteClick(event) {
 	if (confirm('Are you sure you want to delete this product?')) {
 		deleteProduct(event.target);
 	}
-}
-
-function search()
-{
-	let searchElement = document.getElementById('search-input');
-
-	let handleResponse = function (response) {
-		if (response['status'] == 'success') {
-			let productList = document.getElementById('product-list');
-			productList.innerHTML = "";
-		}
-		else if (response['status'] == 'error') {
-			alert(response['message']);
-		}
-	};
-	let uri = baseUrl() + '/product-list';
-	let data = {
-		'ajax': true,
-		'search': true,
-		'search-text': searchElement.value,
-	};
-
-	JSONHttpRequest(uri, data, handleResponse);
 }
 
 function addToCart(target) {

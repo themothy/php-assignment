@@ -75,6 +75,15 @@ class LoginController extends CI_Controller
                     'loggedIn' => true,
                 ]);
 
+                if ($this->input->post('remember-me') == true)
+                {
+                    $this->config->set_item('sess_expire_on_close', false);
+                }
+                else
+                {
+                    $this->config->set_item('sess_expire_on_close', true);
+                }
+
                 redirect('home');
             }
             else

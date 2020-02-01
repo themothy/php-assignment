@@ -66,6 +66,21 @@ class ProductsMapper extends CI_Model
     }
 
 
+    public function fetchDescriptionLike(string $text)
+    {
+        $text = "%$text%";
+        $sql = '
+            SELECT productCode, description, productLine, supplier, quantityInStock, bulkBuyPrice, bulkSalePrice, photo, isArchived
+            FROM products
+            WHERE isArchived = 0 AND description LIKE ?
+            ';
+
+        $query = $this->db->query($sql, [$text]);
+        $results = $query->result();
+        return $results;
+    }
+
+
     public function update(string $code, array $newData): bool
     {
         $sql = '
