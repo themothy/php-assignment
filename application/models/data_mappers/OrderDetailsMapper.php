@@ -35,13 +35,56 @@ class OrderDetailsMapper extends CI_Model
     }
 
 
-    public function update(int $id, array $newData): bool
+    public function update(int $orderId, string $productCode, array $newData): bool
     {
     }
 
 
-    public function delete(int $id): bool
+    public function updateQuantity(int $orderId, string $productCode, int $quantity): bool
     {
+        $sql = '
+            UPDATE orderDetails 
+            SET quantityOrdered = ?
+            WHERE orderId = ? AND productId = ?
+            ';
+
+        $this->db->query($sql, [
+            $quantity,
+            $orderId,
+            $productCode
+        ]);
+
+        if ($this->db->affected_rows() == 1)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+
+    public function delete(int $orderId, string $productCode): bool
+    {
+        $sql = '
+            DELETE FROM orderDetails 
+            WHERE orderId = ? AND productId = ?
+            ';
+
+        $this->db->query($sql, [
+            $orderId,
+            $productCode
+        ]);
+
+        if ($this->db->affected_rows() == 1)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
 

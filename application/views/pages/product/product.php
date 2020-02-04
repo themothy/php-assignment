@@ -58,8 +58,8 @@ $base = base_url() . index_page();
             <div class="pt-3">
                 <table class="table">
                     <tr>
-                        <th>Description</th>
-                        <td><?= $product->description ?></td>
+                        <th class="w-25">Description</th>
+                        <td class="w-75"><?= $product->description ?></td>
                     </tr>
                     <tr>
                         <th>Product line</th>
@@ -73,18 +73,22 @@ $base = base_url() . index_page();
                         <th>Stock quantity</th>
                         <td><?= $product->quantityInStock ?></td>
                     </tr>
-                    <tr>
-                        <th>Bulk buy price</th>
-                        <td>€<?= $product->bulkBuyPrice ?></td>
-                    </tr>
+                    <?php if ($this->session->userType == 'admin'): ?>
+                        <tr>
+                            <th>Bulk buy price <span class="badge badge-warning">admin only</span></th>
+                            <td>€<?= $product->bulkBuyPrice ?></td>
+                        </tr>
+                    <?php endif ?>
                     <tr>
                         <th>Bulk sale price</th>
                         <td>€<?= $product->bulkSalePrice ?></td>
                     </tr>
-                    <tr>
-                        <th>Product code</th>
-                        <td><?= $product->productCode ?></td>
-                    </tr>
+                    <?php if ($this->session->userType == 'admin'): ?>
+                        <tr>
+                            <th>Product code <span class="badge badge-warning">admin only</span></th>
+                            <td><?= $product->productCode ?></td>
+                        </tr>
+                    <?php endif ?>
                 </table>
             </div>
         <?php endif ?>

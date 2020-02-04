@@ -29,10 +29,12 @@ $jsBase = base_url() . "assets/js/";
             <h3>
                 <a href="<?= $base ?>/product/<?= $product->productCode ?>" class="text-secondary"><?= $product->description ?></a>
             </h3>
-            <div>
-                <span class="text-muted">Bulk buy price:</span>
-                <strong>€<?= $product->bulkBuyPrice ?></strong>
-            </div>
+            <?php if ($this->session->userType == 'admin'): ?>
+                <div>
+                    <span class="text-muted">Bulk buy price:</span>
+                    <strong>€<?= $product->bulkBuyPrice ?> <span class="badge badge-warning">admin only</span></strong>
+                </div>
+            <?php endif ?>
             <div>
                 <span class="text-muted">Bulk sale price:</span>
                 <strong>€<?= $product->bulkSalePrice ?></strong>
@@ -57,7 +59,7 @@ $jsBase = base_url() . "assets/js/";
                 </div>
                 <div>
                     <a href="<?= $base ?>/edit-product/<?= $product->productCode ?>">
-                        <button type="button" name="edit" class="btn btn-outline-primary w-100 m-1" product-code="<?= $product->productCode ?>">Edit</button>
+                        <button type="button" class="btn btn-outline-primary w-100 m-1">Edit</button>
                     </a>
                 </div>
             </div>

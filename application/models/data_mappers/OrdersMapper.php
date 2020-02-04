@@ -58,6 +58,27 @@ class OrdersMapper extends CI_Model
 
     public function update(int $id, array $newData): bool
     {
+        $sql = '
+            UPDATE orders 
+            SET requiredDate = ?, status = ?, comments = ?
+            WHERE orderId = ?
+            ';
+
+        $this->db->query($sql, [
+            $newData['required-date'],
+            $newData['status'],
+            $newData['comments'],
+            $id
+        ]);
+
+        if ($this->db->affected_rows() == 1)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
 

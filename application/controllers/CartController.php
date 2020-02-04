@@ -107,7 +107,7 @@ class CartController extends CI_Controller
             {
                 echo json_encode([
                     'status' => 'error',
-                    'message' => 'Failed to remove item from cart, the item may not be in the cart.'
+                    'message' => 'Failed to update quantity on cart, the item may not be in the cart.'
                 ]);
             }
         }
@@ -115,7 +115,7 @@ class CartController extends CI_Controller
         {
             echo json_encode([
                 'status' => 'error',
-                'message' => 'Unknown error occurred when removing item from cart.'
+                'message' => 'Unknown error occurred when updating quantity on cart.'
             ]);
         }
     }

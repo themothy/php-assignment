@@ -4,13 +4,18 @@ $this->load->helper('url');
 $base = base_url() . index_page();
 $img_base = base_url() . "assets/images/";
 
+$amendableStatusTypes = [
+    'In Process',
+    'On Hold',
+];
+
 /**
  * @var $orderItem
  */
 ?>
 
 <div id="<?= $orderItem->orderId ?>" class="product-row pt-3 pb-3 border-bottom row">
-    <div class="order-info mt-1">
+    <div class="order-info mt-1 col-10">
         <h3>
             <a href="<?= $base ?>/order/<?= $orderItem->orderId ?>" class="text-secondary">Order: <?= $orderItem->orderId ?></a>
         </h3>
@@ -23,4 +28,13 @@ $img_base = base_url() . "assets/images/";
             <strong><?= $orderItem->status ?></strong>
         </div>
     </div>
+    <?php if (in_array($orderItem->status, $amendableStatusTypes)): ?>
+        <div class="col-2">
+            <div>
+                <a href="<?= $base ?>/amend-order/<?= $orderItem->orderId ?>">
+                    <button type="button" class="btn btn-primary w-100 mt-4">Amend</button>
+                </a>
+            </div>
+        </div>
+    <?php endif ?>
 </div>

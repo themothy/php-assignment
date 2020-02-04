@@ -26,7 +26,7 @@ $jsBase = base_url() . "assets/js/";
     <div class="container">
         <div class="mt-2">
             <form class="form-inline my-2 my-lg-0" method="get">
-                <input id="search-input" name="search" class="form-control mr-sm-2 col-10" type="text" placeholder="Search">
+                <input id="search-input" name="search" class="form-control mr-sm-2 col-10" type="text" placeholder="Search by Order ID">
                 <button id="search-button" class="btn btn-secondary my-2 my-sm-0 col" type="submit">Search</button>
             </form>
         </div>
