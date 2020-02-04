@@ -3,3 +3,11 @@
     margin-top: 10px!important;
     margin-bottom: 5px!important;
 }
+
+.border-light {
+    border: 1px solid #cccccc!important;
+}
+
+.badge-light {
+    background-color: #dddddd!important;
+}

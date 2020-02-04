@@ -4,7 +4,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class ProductController extends CI_Controller
 {
     private $data = [
-        'product' => null
+        'product' => null,
+        'reviews' => [],
+        'reviewForm' => [
+            'rating' => 0,
+            'text' => ''
+        ]
     ];
 
 
@@ -12,9 +17,11 @@ class ProductController extends CI_Controller
     {
         parent::__construct();
         $this->load->model('ProductModel');
-        $this->load->model('ProductsMapper');
         $this->load->model('CartModel');
         $this->load->model('WishlistModel');
+        $this->load->model('data_mappers/ProductsMapper');
+        $this->load->model('data_mappers/CustomersMapper');
+        $this->load->model('data_mappers/ReviewsMapper');
         $this->load->helper('url');
     }
 
@@ -30,6 +37,7 @@ class ProductController extends CI_Controller
         else
         {
             $this->handlePost();
+            $this->setData($productCode);
             $this->load->view('pages/product/product', $this->data);
         }
     }
@@ -62,11 +70,19 @@ class ProductController extends CI_Controller
         {
             $this->deleteProduct();
         }
+        if ($this->input->post('remove-review'))
+        {
+            $this->removeReview();
+        }
     }
 
 
     private function handlePost()
     {
+        if ($this->input->post('submit-review'))
+        {
+            $this->submitReview();
+        }
     }
 
 
@@ -171,9 +187,81 @@ class ProductController extends CI_Controller
     }
 
 
+    private function removeReview()
+    {
+        try
+        {
+            $productCode = $this->input->post('product-code');
+            $customerId = $this->input->post('customer-id');
+
+            if ($this->session->userType != 'admin' && $this->session->customerId != $customerId)
+            {
+                echo json_encode([
+                    'status' => 'error',
+                    'message' => "You do not have permission to execute this command."
+                ]);
+            }
+            else if ($this->ReviewsMapper->delete($productCode, (int)$customerId))
+            {
+                echo json_encode([
+                    'status' => 'success',
+                    'message' => null
+                ]);
+            }
+            else
+            {
+                echo json_encode([
+                    'status' => 'error',
+                    'message' => 'Failed to remove review, it may not exist in the database.'
+                ]);
+            }
+        }
+        catch (Exception $exception)
+        {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Unknown error occurred when removing review.'
+            ]);
+        }
+    }
+
+
+    private function submitReview()
+    {
+        try
+        {
+            $this->ReviewsMapper->insert([
+                'product-code' => $this->input->post('product-code'),
+                'customer-id' => $this->session->customerId,
+                'rating' => $this->input->post('review-rating'),
+                'text' => $this->input->post('review-text')
+            ]);
+        }
+        catch (Exception $exception)
+        {
+            $this->data['error'] = [
+                'id' => 'submit-review',
+                'message' => $exception->getMessage()
+            ];
+        }
+    }
+
+
     private function setData(string $productCode)
     {
         # Product data.
         $this->data['product'] = $this->ProductsMapper->fetch($productCode);
+        $this->data['reviews'] = $this->ReviewsMapper->fetchByProductCode($productCode);
+
+        for ($i = 0; $i < count($this->data['reviews']); $i++)
+        {
+            $this->data['reviews'][$i]->customer = $this->CustomersMapper->fetch($this->data['reviews'][$i]->customerId);
+        }
+
+        # Review form data
+        foreach ($this->data['reviewForm'] as $key => $value)
+        {
+            $this->data['reviewForm'][$key] = $this->input->post($key);
+        }
     }
 }
