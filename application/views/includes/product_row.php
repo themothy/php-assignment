@@ -29,15 +29,18 @@ $jsBase = base_url() . "assets/js/";
             <h3>
                 <a href="<?= $base ?>/product/<?= $product->productCode ?>" class="text-secondary"><?= $product->description ?></a>
             </h3>
-            <?php if ($this->session->userType == 'admin'): ?>
-                <div>
-                    <span class="text-muted">Bulk buy price:</span>
-                    <strong>€<?= $product->bulkBuyPrice ?> <span class="badge badge-warning">admin only</span></strong>
-                </div>
-            <?php endif ?>
             <div>
                 <span class="text-muted">Bulk sale price:</span>
                 <strong>€<?= $product->bulkSalePrice ?></strong>
+
+                <?php if ($this->session->userType == 'admin'): ?>
+                    <span class="text-muted ml-2">Bulk buy price:</span>
+                    <strong>€<?= $product->bulkBuyPrice ?></strong>
+                <?php endif ?>
+            </div>
+            <div>
+                <span class="text-muted">Rating:</span>
+                <strong><?= $product->rating ?> <small>(out of 5)</small></strong>
             </div>
         </div>
     </div>

@@ -26,7 +26,7 @@ $amendableStatusTypes = [
 
 <div class="body">
     <div class="container">
-        <?php if ($order != null && $this->session->customerId == $order->customerId): ?>
+        <?php if ($order != null && ($this->session->customerId == $order->customerId || $this->session->userType == 'admin')): ?>
             <?php if (in_array($order->status, $amendableStatusTypes)): ?>
                 <div>
                     <a href="<?= $base ?>/amend-order/<?= $order->orderId ?>">

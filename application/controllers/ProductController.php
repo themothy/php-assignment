@@ -251,6 +251,7 @@ class ProductController extends CI_Controller
     {
         # Product data.
         $this->data['product'] = $this->ProductsMapper->fetch($productCode);
+        $this->data['product']->rating = $this->ReviewsMapper->averageRating($productCode);
         $this->data['reviews'] = $this->ReviewsMapper->fetchByProductCode($productCode);
 
         for ($i = 0; $i < count($this->data['reviews']); $i++)

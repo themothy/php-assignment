@@ -10,6 +10,27 @@ class ReviewsMapper extends CI_Model
     }
 
 
+    public function averageRating(string $productCode): ?float
+    {
+        $sql = '
+            SELECT AVG(rating) as average
+            FROM reviews
+            WHERE productCode = ?
+            ';
+
+        $query = $this->db->query($sql, [
+            $productCode,
+        ]);
+        $results = $query->result();
+
+        if (count($results) > 0)
+        {
+            return round((double)$results[0]->average, 2);
+        }
+        return null;
+    }
+
+
     public function insert(array $data): bool
     {
         $sql = '

@@ -64,6 +64,10 @@ $base = base_url() . index_page();
                         <td class="w-75"><?= $product->description ?></td>
                     </tr>
                     <tr>
+                        <th>Average rating</th>
+                        <td><?= $product->rating ?> <small>(out of 5)</small></td>
+                    </tr>
+                    <tr>
                         <th>Product line</th>
                         <td><?= $product->productLine ?></td>
                     </tr>

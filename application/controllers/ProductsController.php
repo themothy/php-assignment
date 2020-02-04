@@ -17,9 +17,10 @@ class ProductsController extends CI_Controller
     {
         parent::__construct();
         $this->load->model('ProductModel');
-        $this->load->model('ProductsMapper');
         $this->load->model('CartModel');
         $this->load->model('WishlistModel');
+        $this->load->model('data_mappers/ProductsMapper');
+        $this->load->model('data_mappers/ReviewsMapper');
         $this->load->helper('url');
 
         $this->totalItems = $this->ProductsMapper->rowCount();
@@ -192,5 +193,10 @@ class ProductsController extends CI_Controller
         $this->data['pageNumber'] = $pageNumber;
         $this->data['productCount'] = $this->totalItems;
         $this->data['itemsPerPage'] = $this->itemsPerPage;
+
+        for ($i = 0; $i < count($this->data['products']); $i++)
+        {
+            $this->data['products'][$i]->rating = $this->ReviewsMapper->averageRating($this->data['products'][$i]->productCode);
+        }
     }
 }
