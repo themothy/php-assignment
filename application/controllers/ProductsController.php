@@ -26,7 +26,7 @@ class ProductsController extends CI_Controller
     }
 
 
-    public function index(int $pageNumber)
+    public function index(int $pageNumber = 1)
     {
         $this->setData($pageNumber);
 
