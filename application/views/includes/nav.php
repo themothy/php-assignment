@@ -7,7 +7,7 @@ $img_base = base_url() . "assets/images/";
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
-        <a href="/" class="navbar-brand">Moylish Market</a>
+        <a href="<?= $base ?>" class="navbar-brand">Moylish Market</a>
 
         <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#nav-main" aria-controls="nav-main" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
